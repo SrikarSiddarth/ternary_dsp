@@ -1,0 +1,7 @@
+<launch>
+	<node pkg='ternary_dsp' type='receiver.py' name='receiver' output='screen'/>
+	<node pkg='ternary_dsp' type='transmitter.py' name='transmitter' output = 'screen'/>
+	<node pkg='plotjuggler' type='PlotJuggler' name='plotjuggler' output='screen'/>
+	<!-- Run the following command to trigger the ternary pulse compression code -->
+	<!-- rostopic pub /trigger std_msgs/Empty -->
+</launch>
