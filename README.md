@@ -15,3 +15,5 @@ Or alternatively publish the following message in a new terminal
 ```sh
 $ rostopic pub /trigger std_msgs/Empty
 ```
+
+Please file any issues at https://github.com/SrikarSiddarth/ternary_dsp.git or send an e-mail to srikarsiddharth@gmail.com
