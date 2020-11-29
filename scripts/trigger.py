@@ -10,12 +10,19 @@ else:
 
 
 msg = """
-	
+##############################################################################
+
+			Mini-Project EC385
+		Under The guidance of Dr. P. Srihari
+	National Institute of Technology Karnataka, Surathkal
+
+
 	Welcome to the ternary pulse compression code simulation.
-	Trigger the code by pressing the 't' key on the keyboard!
+	Press the 't' key on the keyboard to Trigger code!
 
 
-Ctrl-c to quit
+Press ctrl-c to quit
+###############################################################################
 """
 e = """
 Communications failed
@@ -49,7 +56,7 @@ if __name__ == '__main__':
 			key = getKey()
 			if key=='t':
 				pub.publish()
-				print('triggered!')
+				print('A trigger has been made')
 			elif key=='\x03':
 				break
 	except:

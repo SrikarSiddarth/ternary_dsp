@@ -17,42 +17,46 @@ print('\n....Receiver Started....\n')
 
 N = 1024					# length of array for storing continuous-time values
 d = [0]*N 					# initializing the data storage array
-delay = 0					# stores the delay value
-t = []						# trigger array that stores the main data for performing delay
+# delay = 0					# stores the delay value
+# t = []						# trigger array that stores the main data for performing delay
 rate = 100					# rate of the main loop
-t1 = 0						# to extract the time delay from the graph
+t1 = []						# to extract the time delay from the graph
 
 def trig(msg):
-	global t, delay, t1
-	t1 = time.time()
-	t = []
-	x = random.random()*4 + 1
-	delay = x*rate 				# giving a delay of 1-5 seconds
-	print('triggered! at a delay of '+str(x)+' seconds.')
+	global t1
+	t1 += [time.time()]
+	# t = []
+	# x = random.random()*4 + 1
+	# delay = x*rate 				# giving a delay of 1-5 seconds
+	# print('triggered! at a delay of '+str(x)+' seconds.')
+
+# def receive(msg):
+# 	global d,t,delay
+# 	if delay>0:
+# 		t += [msg.data]
+# 		delay -= 1
+# 		d = [random.random()-0.5] + d[:N-1]
+# 	else:
+# 		if len(t)>0:
+# 			d = [t[0]]+d[:N-1]
+# 			t.pop(0)
+# 		else:
+# 			d = [msg.data] + d[:N-1]
 
 def receive(msg):
-	global d,t,delay
-	if delay>0:
-		t += [msg.data]
-		delay -= 1
-		d = [random.random()-0.5] + d[:N-1]
-	else:
-		if len(t)>0:
-			d = [t[0]]+d[:N-1]
-			t.pop(0)
-		else:
-			d = [msg.data] + d[:N-1]
-
+	global d
+	d = [msg.data] + d[:N-1]
 
 if __name__ == '__main__':
 	rospy.init_node('receiver')
-	data_sub = rospy.Subscriber('/data', Float64, receive)
+	index = rospy.get_param('~length',2)
+	data_sub = rospy.Subscriber('/channel', Float64, receive)
 	trig_sub = rospy.Subscriber('/trigger', Empty, trig)
 	info_pub = rospy.Publisher('/info', Float64, queue_size = 20)
 
 
 	# select length index as 0, 1 or 2 for a 7, 13, or 31 length ternary code
-	index = 2
+	
 	y = [[1,1,1,0,0,1,0],
 		[1,1,1,0,1,1,0,0,0,0,1,1,0],
 		[1,1,1,1,0,0,0,1,0,1,0,1,1,1,0,0,0,0,1,0,0,1,0,0,1,1,1,0,1,1,0]
@@ -70,7 +74,6 @@ if __name__ == '__main__':
 		s = 20*np.log10(abs(s))			# dB scale
 		info_pub.publish(s)
 		if s>cutoff[index]:
-			t1 = time.time()-t1
-			print('delay occured in receiving is '+str(t1))
+			print('delay occured in receiving is '+str(time.time()-t1[0]))
+			t1.pop(0)
 		r.sleep()
-	

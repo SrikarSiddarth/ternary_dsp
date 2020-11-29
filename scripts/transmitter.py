@@ -20,6 +20,7 @@ def trig(msg):
 
 if __name__ == '__main__':
 	rospy.init_node('transmitter')
+	index = rospy.get_param('~length',2)
 	code_pub = rospy.Publisher('/data', Float64, queue_size = 20)
 	sub = rospy.Subscriber('/trigger', Empty, trig)
 
@@ -30,8 +31,7 @@ if __name__ == '__main__':
 	# 31 - length code
 	# x = [1,1,1,1,-1,-1,-1,1,-1,1,-1,1,1,1,-1,-1,-1,-1,1,-1,-1,1,-1,-1,1,1,1,-1,1,1,-1]
 
-	# select length index as 0, 1 or 2 for a 7, 13, or 31 length ternary code
-	index = 2
+	
 	x = [[1,1,1,-1,-1,1,-1],
 		[1,1,1,-1,1,1,-1,-1,-1,-1,1,1,-1],
 		[1,1,1,1,-1,-1,-1,1,-1,1,-1,1,1,1,-1,-1,-1,-1,1,-1,-1,1,-1,-1,1,1,1,-1,1,1,-1]]
@@ -44,5 +44,5 @@ if __name__ == '__main__':
 				# print('message published')
 				t = 0
 		else:
-			code_pub.publish(random.random()-0.5)		# generates random number between -0.5 and 0.5
+			code_pub.publish(0)		# generates random number between -0.5 and 0.5
 		r.sleep()

@@ -1,8 +1,24 @@
 <launch>
-	<node pkg='ternary_dsp' type='receiver.py' name='receiver' output='screen'/>
-	<node pkg='ternary_dsp' type='transmitter.py' name='transmitter' output = 'screen'/>
-	<node pkg='plotjuggler' type='PlotJuggler' name='plotjuggler' output='screen'/>
+	<!-- select length index as 0, 1 or 2 for a 7, 13, or 31 length ternary code repectively -->
+	<arg name='length' default='0'/>
+
+	<!-- Activating Receiver -->
+	<node pkg='ternary_dsp' type='receiver.py' name='receiver' output='screen'>
+		<param name='~length' value='$(arg length)'/>
+	</node>
+	<!-- Activating Transmitter -->
+	<node pkg='ternary_dsp' type='transmitter.py' name='transmitter' output = 'screen'>
+		<param name='~length' value='$(arg length)'/>
+	</node>
+	<!-- Activating channel -->
+	<node pkg='ternary_dsp' type='channel.py' name='channel' output='screen'>
+		<param name='~length' value='$(arg length)'/>
+	</node>
+	<!-- Activating trigger node -->
 	<node pkg='ternary_dsp' type='trigger.py' name='trigger' output='screen'/>
+	<!-- Running the plotjuggler node -->
+	<node pkg='plotjuggler' type='PlotJuggler' name='plotjuggler'/>
+	
 	<!-- To trigger the ternary pulse compression code run the following command-->
 	<!-- rostopic pub /trigger std_msgs/Empty -->
 </launch>
