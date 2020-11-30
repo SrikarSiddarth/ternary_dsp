@@ -25,6 +25,6 @@ Or alternatively publish the following message in a new terminal
 $ rostopic pub /trigger std_msgs/Empty
 ```
 
-Note: By default the length of the ternary pulse compression code is set to 31. It can be changed. Set the argument *length* in the launch file to 0 or 1 or 2 in order to use the lengths 7 or 13 or 31 respectively.
+Note: By default the length of the ternary pulse compression code is set to 31. It can be changed. Set the argument *length* in the /launch/ternary.launch file to 0 or 1 or 2 in order to use the lengths 7 or 13 or 31 respectively.
 
 Please file any issues at https://github.com/SrikarSiddarth/ternary_dsp.git or send an e-mail to srikarsiddharth@gmail.com
