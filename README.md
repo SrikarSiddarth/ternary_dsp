@@ -10,6 +10,8 @@ Installation :
 ```sh
 $ sudo apt install ros-${ROS_DISTRO}-plotjuggler-ros
 ```
+3. clone this package to the workspace and build it
+
 ## Running the simulation
 Step 1. Type the following command to run both the transmitter and receiver
 
