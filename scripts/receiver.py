@@ -15,33 +15,19 @@ print('\n....Receiver Started....\n')
 
 
 
-N = 1024					# length of array for storing continuous-time values
+N = 8192					# length of array for storing continuous-time values
 d = [0]*N 					# initializing the data storage array
 # delay = 0					# stores the delay value
 # t = []						# trigger array that stores the main data for performing delay
-rate = 100					# rate of the main loop
+rate = 400					# rate of the main loop
 t1 = []						# to extract the time delay from the graph
+c = 0
 
 def trig(msg):
-	global t1
+	global t1, c
 	t1 += [time.time()]
-	# t = []
-	# x = random.random()*4 + 1
-	# delay = x*rate 				# giving a delay of 1-5 seconds
-	# print('triggered! at a delay of '+str(x)+' seconds.')
+	c = 1
 
-# def receive(msg):
-# 	global d,t,delay
-# 	if delay>0:
-# 		t += [msg.data]
-# 		delay -= 1
-# 		d = [random.random()-0.5] + d[:N-1]
-# 	else:
-# 		if len(t)>0:
-# 			d = [t[0]]+d[:N-1]
-# 			t.pop(0)
-# 		else:
-# 			d = [msg.data] + d[:N-1]
 
 def receive(msg):
 	global d
@@ -49,31 +35,59 @@ def receive(msg):
 
 if __name__ == '__main__':
 	rospy.init_node('receiver')
-	index = rospy.get_param('~length',2)
+	index = rospy.get_param('~length',0)
 	data_sub = rospy.Subscriber('/channel', Float64, receive)
 	trig_sub = rospy.Subscriber('/trigger', Empty, trig)
 	info_pub = rospy.Publisher('/info', Float64, queue_size = 20)
+	pw = 100
+	f = 20
 
-
-	# select length index as 0, 1 or 2 for a 7, 13, or 31 length ternary code
+	tolerance = [1.74,0,0]
+	tolerance_b = [1.75]
 	
+	# ternary code
 	y = [[1,1,1,0,0,1,0],
-		[1,1,1,0,1,1,0,0,0,0,1,1,0],
+		[1,0,1,0,1,1,0,0,0,0,1,1,0],
 		[1,1,1,1,0,0,0,1,0,1,0,1,1,1,0,0,0,0,1,0,0,1,0,0,1,1,1,0,1,1,0]
 		]
 
-	cutoff = [11.5, 15, 17]
-	l = len(y[index])
+	# # barker code
+	# y = [[1,1,1,-1,-1,1,-1],
+	# 	[1,1,1,1,1,-1,-1,1,1,-1,1,-1,1]]
+
+
+	cutoff = [200, 15, 17]
+	cutoff_b = [300]
+	# l = len(y[index])
+	l = len(y[index])*pw
 	r = rospy.Rate(rate)
-	Smax = 0
+	
 	while not rospy.is_shutdown():
 		s = 1
+
+
 		# performing convolution at receiver
 		for i in range(l):
-			s += d[l-i-1]*y[index][i]
-		s = 20*np.log10(abs(s))			# dB scale
+			# s += d[l-i-1]*y[index][i]
+			s += d[l-i-1]*np.cos(2*np.pi*i/l*f + 0.5*(1-y[index][int(i/pw)])*np.pi)
+		
+		# s = 20*np.log10(abs(s))			# dB scale
+		
 		info_pub.publish(s)
-		if s>cutoff[index]:
-			print('delay occured in receiving is '+str(time.time()-t1[0]))
-			t1.pop(0)
+
+		# for ternary code
+		# if s>cutoff[index] and c==1:
+		# 	print('delay occured in receiving is '+str(time.time()-t1[0]-tolerance[index]))
+		# 	# print('delay occured in receiving is '+str(time.time()-t1[0]))
+		# 	t1.pop(0)
+		# 	c=0
+
+		# for barker code
+		# if s>cutoff_b[index] and c==1:
+		# 	print('delay occured in receiving is '+str(time.time()-t1[0]-tolerance_b[index]))
+		# 	# print('delay occured in receiving is '+str(time.time()-t1[0]))
+		# 	t1.pop(0)
+		# 	c=0
+
+			# print(s)
 		r.sleep()

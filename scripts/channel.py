@@ -10,13 +10,14 @@ msg = """
 ....Channel Activated!....
 """
 
-rate = 100
+rate = 400
 t = []								#trigger array
-index = 2
+index = 0
 trig = 0
+pw = 100
 lengths = [7,13,31]
 length = 0
-delay_time = 2							# standard delay of 2 seconds
+delay_time = 2.2							# standard delay
 delay = []								# delay array
 delayed_data = 0
 def fromTransmitter(msg):
@@ -24,7 +25,8 @@ def fromTransmitter(msg):
 	if trig:
 		t.append([])
 		delay.append(delay_time*rate)
-		length = lengths[index]
+		# length = lengths[index]
+		length = lengths[index]*pw
 		trig = 0
 	if length>0:
 		if len(t)==0:
@@ -44,7 +46,7 @@ def trigger(msg):
 
 if __name__ == '__main__':
 	rospy.init_node('channel')
-	index = rospy.get_param('~length',2)
+	index = rospy.get_param('~length',0)
 	print(msg)
 	data_sub = rospy.Subscriber('/data', Float64, fromTransmitter)
 	trig_sub = rospy.Subscriber('/trigger', Empty, trigger)
@@ -62,7 +64,8 @@ if __name__ == '__main__':
 				delay[i] -= 1
 				if delay[i]<=0:
 					k.append(i)
-					l.append(lengths[index])
+					# l.append(lengths[index])
+					l.append(lengths[index]*pw)
 					delay.pop(i)
 				i += 1
 		i = 0
@@ -77,11 +80,8 @@ if __name__ == '__main__':
 					t.pop(k[i])
 					k.pop(i)
 					l.pop(i)
-
-					delayed_data += random.random() - 0.5
 				i += 1
-		else:
-			delayed_data += random.random() - 0.5
+		delayed_data += 0.5*(random.random() - 0.5)
 		# print(l,delayed_data)
 		channel_pub.publish(delayed_data)
 		r.sleep()
