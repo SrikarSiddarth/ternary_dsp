@@ -1,4 +1,8 @@
 #!/usr/bin/env python
+#
+# The Channel node tries to replicate a real channel by providing sufficient delay to a signal
+#
+#
 
 import rospy
 import random
@@ -10,16 +14,18 @@ msg = """
 ....Channel Activated!....
 """
 
-rate = 400
-t = []								#trigger array
-index = 0
-trig = 0
-pw = 100
-lengths = [7,13,31]
-length = 0
-delay_time = 2.2							# standard delay
+rate = 400								# rate at which messages are published
+t = []									# trigger array
+index = 0								# index determines the length of the ternary code
+trig = 0								# trigger indicator
+pw = 100								# pulse width
+lengths = [7,13,31]						# 
+length = 0								# stores the length of signals
+delay_time = 2							# standard delay
 delay = []								# delay array
-delayed_data = 0
+delayed_data = 0						# stores the delayed version of the signal that is to be published
+
+
 def fromTransmitter(msg):
 	global trig, length, index, delay, t, delay_time, rate
 	if trig:
@@ -41,7 +47,6 @@ def fromTransmitter(msg):
 def trigger(msg):
 	global trig
 	trig = 1
-	# print('triggered in channel')
 
 
 if __name__ == '__main__':
@@ -81,6 +86,7 @@ if __name__ == '__main__':
 					k.pop(i)
 					l.pop(i)
 				i += 1
+		# gaussian white noise of 0.25 volt
 		delayed_data += 0.5*(random.random() - 0.5)
 		# print(l,delayed_data)
 		channel_pub.publish(delayed_data)

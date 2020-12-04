@@ -2,12 +2,20 @@
 #
 #
 # This is the transmitter for simulating the ternary pulse compression code
-
+# 
+#
+# 7 - length code
+# x = [1,1,1,-1,-1,1,-1]
+# 13 - length code
+# x = [1,1,1,-1,1,1,-1,-1,-1,-1,1,1,-1]
+# 31 - length code
+# x = [1,1,1,1,-1,-1,-1,1,-1,1,-1,1,1,1,-1,-1,-1,-1,1,-1,-1,1,-1,-1,1,1,1,-1,1,1,-1]
+#
+#
 
 import rospy
 from std_msgs.msg import Float64
 from std_msgs.msg import Empty
-import random
 import numpy as np
 
 print('\n....Tranmission Started....\n')
@@ -17,7 +25,7 @@ def trig(msg):
 	global t,i
 	t = 1
 	i = 0
-	# print('triggered!')
+	
 
 if __name__ == '__main__':
 	rospy.init_node('transmitter')
@@ -25,13 +33,7 @@ if __name__ == '__main__':
 	code_pub = rospy.Publisher('/data', Float64, queue_size = 20)
 	sub = rospy.Subscriber('/trigger', Empty, trig)
 	rate = 400
-	# 7 - length code
-	# x = [1,1,1,-1,-1,1,-1]
-	# 13 - length code
-	# x = [1,1,1,-1,1,1,-1,-1,-1,-1,1,1,-1]
-	# 31 - length code
-	# x = [1,1,1,1,-1,-1,-1,1,-1,1,-1,1,1,1,-1,-1,-1,-1,1,-1,-1,1,-1,-1,1,1,1,-1,1,1,-1]
-
+	
 	# ternary codes
 	x = [[1,1,1,-1,-1,1,-1],
 		[1,1,1,-1,1,1,-1,-1,-1,-1,1,1,-1],
@@ -53,7 +55,6 @@ if __name__ == '__main__':
 			code_pub.publish(np.cos(2*np.pi*i/l*f + 0.5*(1-x[index][int(i/pw)])*np.pi))
 			i += 1
 			if i==l:
-				# print('message published')
 				t = 0
 		else:
 			code_pub.publish(0)

@@ -13,7 +13,7 @@ msg = """
 ##############################################################################
 
 			Mini-Project EC385
-		Under The guidance of Dr. P. Srihari
+	Department of Electronics and Communication Engineering
 	National Institute of Technology Karnataka, Surathkal
 
 
