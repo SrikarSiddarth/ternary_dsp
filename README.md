@@ -16,8 +16,10 @@ $ sudo apt install ros-${ROS_DISTRO}-plotjuggler-ros
 Step 1. Type the following command to run both the transmitter and receiver
 
 ```sh
-$ roslaunch ternary_dsp ternary.launch
+$ roslaunch ternary_dsp ternary.launch length:=0
 ```
+setting the *length* parameter to 0, 1, and 2 corresponds to implementing a 7, 13 and 31 bit ternary code respectively.
+
 Step 2. In the plotjuggler application, click the streaming menu and select *Start:ROS Topic Subscriber* and then select the topics */data* and */info* and click ok.
 Then create two graph view windows one below the other and add these two topics to each of the window.
 
@@ -27,6 +29,6 @@ Or alternatively publish the following message in a new terminal
 $ rostopic pub /trigger std_msgs/Empty
 ```
 
-Note: By default the length of the ternary pulse compression code is set to 31. It can be changed. Set the argument *length* in the /launch/ternary.launch file to 0 or 1 or 2 in order to use the lengths 7 or 13 or 31 respectively.
+Note: By default the length of the ternary pulse compression code is set to 7. It can be changed. Set the argument *length* in the /launch/ternary.launch file to 0 or 1 or 2 in order to use the lengths 7 or 13 or 31 respectively.
 
 Please file any issues at https://github.com/SrikarSiddarth/ternary_dsp/issues or send an e-mail to srikarsiddharth@gmail.com
