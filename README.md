@@ -3,9 +3,9 @@
 This ROS package can be used to simulate a 7, 13 and 31-length Ternary pulse compression code.
 
 ## Prerequisites:
-1. ROS Kinetic or above
+1. ROS Kinetic or above. 
 For Installation (for example ROS melodic) refer - http://wiki.ros.org/melodic/Installation/Ubuntu
-2. Plotjuggler package
+2. Plotjuggler package. 
 Installation :
 ```sh
 $ sudo apt install ros-${ROS_DISTRO}-plotjuggler-ros
