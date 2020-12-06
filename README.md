@@ -1,18 +1,26 @@
 # Ternary pulse compression code simulation
 
+The updated versions of the system in future can be found at https://github.com/SrikarSiddarth/ternary_dsp
+
 This ROS package can be used to simulate a 7, 13 and 31-length Ternary pulse compression code.
 
 ## Prerequisites:
-1. ROS Kinetic or above. 
+1. Ubuntu 16.04 or higher
+2. ROS Kinetic or above. 
 For Installation (for example ROS melodic) refer - http://wiki.ros.org/melodic/Installation/Ubuntu
-2. Plotjuggler package. 
+3. Plotjuggler package. 
 Installation :
 ```sh
 $ sudo apt install ros-${ROS_DISTRO}-plotjuggler-ros
 ```
-3. clone this package to the workspace and build it
 
 ## Running the simulation
+
+Step 0. Copy the *ternary_dsp* folder to the catkin workspace and build the package in the *catkin_ws* folder using the command :
+```sh
+$ catkn_make
+```
+
 Step 1. Type the following command to run both the transmitter and receiver
 
 ```sh
