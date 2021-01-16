@@ -18,7 +18,7 @@ $ sudo apt install ros-${ROS_DISTRO}-plotjuggler-ros
 
 Step 0. Copy the *ternary_dsp* folder to the catkin workspace and build the package in the *catkin_ws* folder using the command :
 ```sh
-$ catkn_make
+$ catkin_make
 ```
 
 Step 1. Type the following command to run both the transmitter and receiver
