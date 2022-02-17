@@ -3,6 +3,12 @@
 Implemented from the paper: \
 L. Xu, Q. Liang and T. Jiang, "A ternary pulse compression code: Design and application to radar system," 2010 IEEE International Conference on Acoustics, Speech and Signal Processing, 2010, pp. 4050-4053, doi: 10.1109/ICASSP.2010.5495762.
 
+![image](https://user-images.githubusercontent.com/54308546/154543955-9054c8e5-695a-4d2b-8c4f-0e853556b4b5.png)
+![image](https://user-images.githubusercontent.com/54308546/154544026-1ed50f07-e83a-4488-bad7-b0e23e489db0.png)
+![image](https://user-images.githubusercontent.com/54308546/154544076-d0eab6f8-6bf8-43b2-82de-68901cfaf2e2.png)
+![image](https://user-images.githubusercontent.com/54308546/154544129-3fa8045c-cbac-48f9-a1fd-847ffcb1f4fc.png)
+
+
 The updated versions of the system in future can be found at https://github.com/SrikarSiddarth/ternary_dsp
 
 This ROS package can be used to simulate a 7, 13 and 31-length Ternary pulse compression code.
